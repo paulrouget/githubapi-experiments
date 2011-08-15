@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+
+<meta charset="utf8">
+<title></title>
+
+<script></script>
+<style>
+  #editor {
+    position: absolute;
+    width: 500px;
+    height: 400px;
+  }
+</style>
+
+<div id="editor">some text</div>
+<script src="ace/build/src/ace.js"></script>
+<script src="ace/build/src/theme-monokai.js"></script>
+<script src="ace/build/src/mode-javascript.js"></script>
+<script src="ace/build/src/mode-html.js"></script>
+<script>
+  window.onload = function() {
+    var editor = ace.edit("editor");
+    editor.setTheme("ace/theme/monokai");
+    var JavaScriptMode = require("ace/mode/html").Mode;
+    editor.getSession().setMode(new JavaScriptMode());
+  };
+</script>
+
