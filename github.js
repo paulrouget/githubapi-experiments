@@ -1,4 +1,23 @@
 
+function send(aTitle, aPublic, aContent) {
+  var xhr = new XMLHttpRequest();
+  xhr.open("POST", "https://api.github.com/gists");
+
+  xhr.setRequestHeader("Authorization", "Basic " + base64.encode("paulrouget:zpaulz") );
+
+  xhr.onerror = function(e) {alert(e)}
+  xhr.onload = function() {alert(xhr.responseText)};
+  var param = {};
+  param.description = aTitle;
+  param.public = aPublic;
+  param.files = {}
+  param.files["slides.html"] = {content: aContent};
+
+  //xhr.send('{"description": " + aFile.name + ", "public": fil,"files": {"f.txt": { "content": "1"}}}');
+  xhr.send(JSON.stringify(param));
+
+}
+
 // adapted from here: http://ostermiller.org/calc/encode.html
 var base64 = {};
 
@@ -16,7 +35,7 @@ var base64 = {};
       reverseBase64Chars = new Array(),
       base64Str,
       base64Count;
-      
+
   for (var i=0; i < base64Chars.length; i++){
       reverseBase64Chars[base64Chars[i]] = i;
   }
@@ -87,7 +106,7 @@ var base64 = {};
       }
       return result;
   }
-  
+
   base64.decode = function(str){
       setBase64Str(str);
       var result = "";
@@ -113,22 +132,4 @@ var base64 = {};
   }
 })()
 
-
-/*
- * This is a JavaScript Scratchpad.
- *
- * Enter some JavaScript, then Right Click or choose from the Execute Menu:
- * 1. Run to evaluate the selected text,
- * 2. Inspect to bring up an Object Inspector on the result, or,
- * 3. Display to insert the result in a comment after the selection.
- */
-
-  var xhr = new XMLHttpRequest();
-  xhr.open("POST", "https://api.github.com/gists");
-
-  xhr.setRequestHeader("Authorization", "Basic " + base64.encode("paulrouget:zpaulz") );
-
-  xhr.onerror = function(e) {alert(e)}
-  xhr.onload = function() {alert(xhr.responseText)};
-  xhr.send('{"description": "TEST1","public": false,"files": {"f.txt": { "content": "1"}}}');
 
