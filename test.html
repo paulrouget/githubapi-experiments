@@ -18,8 +18,9 @@
 <script src="ace/src/mode-javascript.js"></script>
 <script src="ace/src/mode-html.js"></script>
 <script>
+  var editor;
   window.onload = function() {
-    var editor = ace.edit("editor");
+    editor = ace.edit("editor");
     editor.setTheme("ace/theme/monokai");
     var HTMLMode = require("ace/mode/html").Mode;
     editor.getSession().setMode(new HTMLMode());
