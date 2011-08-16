@@ -4,7 +4,6 @@ var UI = {};
 
   function updateSource() {
     var iframeDoc = document.querySelector("iframe").contentDocument;
-    console.log(iframeDoc);
     var src = editor.getSession().getValue();
     iframeDoc.open();
     iframeDoc.write(src);
