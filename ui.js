@@ -2,8 +2,8 @@ var UI = {};
 
 (function(public) {
   function signIn() {
-    var login = document.getElementById("login");
-    var pwd = document.getElementById("pwd");
+    var login = document.getElementById("login").value;
+    var pwd = document.getElementById("pwd").value;
     github.signIn(login, pwd);
   }
 
