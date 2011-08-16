@@ -1,12 +1,19 @@
 
-function send(aTitle, aPublic, aContent) {
+function send(aTitle, aPublic, aContent, onError, onSuccess) {
   var xhr = new XMLHttpRequest();
   xhr.open("POST", "https://api.github.com/gists");
 
   xhr.setRequestHeader("Authorization", "Basic " + base64.encode("paulrouget:zpaulz") );
 
-  xhr.onerror = function(e) {alert(e)}
-  xhr.onload = function() {alert(xhr.responseText)};
+  xhr.onerror = function () {
+    if (onError)
+      onError("Connection error")
+  };
+  xhr.onload = function(e) {
+    alert(e.responseText);
+    if (onSuccess)
+      onSuccess(JSON.parse(e.responseText));
+  };
   var param = {};
   param.description = aTitle;
   param.public = aPublic;
