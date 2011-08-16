@@ -5,10 +5,10 @@ var UI = {};
   function updateSource() {
     var iframeDoc = document.querySelector("iframe").contentDocument;
     var src = editor.getSession().getValue();
-    //iframeDoc.open("text/html", "replace");
-    //iframeDoc.write(src);
-    //iframeDoc.close();
-    iframeDoc.documentElement.innerHTML = src;
+    iframeDoc.open("text/html", "replace");
+    iframeDoc.write(src);
+    iframeDoc.location = "ph.html";
+    iframeDoc.close();
   }
 
   function signIn() {
