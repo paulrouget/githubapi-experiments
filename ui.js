@@ -6,8 +6,9 @@ var UI = {};
     var iframeDoc = document.querySelector("iframe").contentDocument;
     var src = editor.getSession().getValue();
     //iframeDoc.open("text/html", "replace");
-    iframeDoc.write(src);
-    iframeDoc.close();
+    //iframeDoc.write(src);
+    //iframeDoc.close();
+    iframeDoc.innerHTML = src;
   }
 
   function signIn() {
