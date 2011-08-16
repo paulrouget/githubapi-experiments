@@ -56,7 +56,7 @@ var github = {};
           onSuccess(xhr.responseText);
       }
     };
-    xhr.send(aPublic);
+    xhr.send(aParam);
   }
 
   public.signIn = signIn;
