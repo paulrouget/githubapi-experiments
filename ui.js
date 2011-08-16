@@ -5,7 +5,7 @@ var UI = {};
   function updateSource() {
     var iframeDoc = document.querySelector("iframe").contentDocument;
     var src = editor.getSession().getValue();
-    iframeDoc.location = "data:text/html;charset=utf-8," + encodeURI(escape(src));
+    iframeDoc.location = "data:text/html;charset=utf-8," + encodeURI(src);
   }
 
   function signIn() {
