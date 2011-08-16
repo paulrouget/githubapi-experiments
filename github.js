@@ -17,13 +17,12 @@ var github = {};
   var user = null;
   var login = null;
   var password = null;
-  var connected = false;
 
   function signIn(aLogin, aPassword) {
     UI.connecting();
     req("user", "GET", aLogin, aPassword, null,
-      function onSuccess(aResponce) {
-        this.user = JSON.parse(aResponce);
+      function onSuccess(aResponse) {
+        this.user = JSON.parse(aResponse);
         UI.connected(this.user);
         login = aLogin;
         password = aPassword;
@@ -35,12 +34,25 @@ var github = {};
       });
   }
 
+  function getGist(aId) {
+    req("gists", "GET", login, password, aId,
+        function onSuccess(aResponse) {
+          var src = JSON.parse(aResponse).files[0].content; // FIXME, fragile:
+          UI.updateSource(src);
+        },
+        function onError(aMsg) {
+          alert("ERROR");
+        });
+  }
+
   function req(aZone, aMethod, aLogin, aPassword, aParam, onSuccess, onError) {
     var xhr = new XMLHttpRequest();
     xhr.open(aMethod, API_URL + "/" + aZone);
 
-    var hash = base64.encode(aLogin + ":" + aPassword);
-    xhr.setRequestHeader("Authorization", "Basic " + hash);
+    if (this.user) {
+      var hash = base64.encode(aLogin + ":" + aPassword);
+      xhr.setRequestHeader("Authorization", "Basic " + hash);
+    }
 
     xhr.onerror = function () {
       if (onError)
@@ -60,4 +72,5 @@ var github = {};
   }
 
   public.signIn = signIn;
+  public.getGist = getGist;
 })(github)
