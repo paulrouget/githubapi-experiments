@@ -1,144 +1,63 @@
+/*function sendToGithub(aTitle, aPublic, aContent, onSuccess, onError) {
 
-function send(aTitle, aPublic, aContent, onError, onSuccess) {
-  var xhr = new XMLHttpRequest();
-  xhr.open("POST", "https://api.github.com/gists");
-
-  xhr.setRequestHeader("Authorization", "Basic " + base64.encode("paulrouget:zpaulz") );
-
-  xhr.onerror = function () {
-    console.warn("XHR ERROR");
-    if (onError)
-      onError("Connection error")
-  };
-  xhr.onload = function(e) {
-    console.log("XHR SUCCESS");
-    console.log(JSON.parse(xhr.responseText));
-    if (onSuccess)
-      onSuccess(JSON.parse(xhr.responseText));
-  };
   var param = {};
   param.description = aTitle;
   param.public = aPublic;
   param.files = {}
   param.files["slides.html"] = {content: aContent};
 
-  //xhr.send('{"description": " + aFile.name + ", "public": fil,"files": {"f.txt": { "content": "1"}}}');
   xhr.send(JSON.stringify(param));
+}*/
 
-}
+var github;
 
-// adapted from here: http://ostermiller.org/calc/encode.html
-var base64 = {};
+(function(public) {
+  var API_URL = "https://api.github.com";
 
-(function () {
-  var END_OF_INPUT = -1,
-      base64Chars = new Array(
-        'A','B','C','D','E','F','G','H',
-        'I','J','K','L','M','N','O','P',
-        'Q','R','S','T','U','V','W','X',
-        'Y','Z','a','b','c','d','e','f',
-        'g','h','i','j','k','l','m','n',
-        'o','p','q','r','s','t','u','v',
-        'w','x','y','z','0','1','2','3',
-        '4','5','6','7','8','9','+','/'),
-      reverseBase64Chars = new Array(),
-      base64Str,
-      base64Count;
+  var user = null;
+  var login = null;
+  var password = null;
+  var connected = false;
 
-  for (var i=0; i < base64Chars.length; i++){
-      reverseBase64Chars[base64Chars[i]] = i;
+  function signIn(aLogin, aPassword) {
+    UI.connecting();
+    req("user", aLogin, aPassword, null,
+      function onSuccess(aResponce) {
+        this.user = JSON.parse(aResponce);
+        UI.connected(this.user);
+        login = aLogin;
+        password = aPassword;
+      },
+      function onError(aMsg) {
+        this.user = null;
+        UI.disconnected();
+        console.warn("signIn Error: " + aMsg);
+      });
   }
 
-  function setBase64Str(str){
-      base64Str = str;
-      base64Count = 0;
-  }
-  function readBase64(){    
-      if (!base64Str) return END_OF_INPUT;
-      if (base64Count >= base64Str.length) return END_OF_INPUT;
-      var c = base64Str.charCodeAt(base64Count) & 0xff;
-      base64Count++;
-      return c;
-  }
-  function readReverseBase64(){   
-      if (!base64Str) return END_OF_INPUT;
-      while (true){      
-          if (base64Count >= base64Str.length) return END_OF_INPUT;
-          var nextCharacter = base64Str.charAt(base64Count);
-          base64Count++;
-          if (reverseBase64Chars[nextCharacter]){
-              return reverseBase64Chars[nextCharacter];
-          }
-          if (nextCharacter == 'A') return 0;
+  function req(aZone, aLogin, aPassword, aParam, onSuccess, onError) {
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", API_URL + "/" + aZone);
+
+    var hash = base64.encode(aLogin + ":" + aPassword);
+    xhr.setRequestHeader("Authorization", "Basic " + hash);
+
+    xhr.onerror = function () {
+      if (onError)
+        onError("Connection error")
+    };
+
+    xhr.onload = function(e) {
+      if (xhr.status != 200) {
+        if (onError)
+          onError("Github.com error");
+      } else {
+        if (onSuccess)
+          onSuccess(xhr.responseText);
       }
-      return END_OF_INPUT;
+    };
+    xhr.send(aPublic);
   }
 
-  function ntos(n){
-      n=n.toString(16);
-      if (n.length == 1) n="0"+n;
-      n="%"+n;
-      return unescape(n);
-  }
-
-  base64.encode = function(str){
-      setBase64Str(str);
-      var result = '';
-      var inBuffer = new Array(3);
-      var lineCount = 0;
-      var done = false;
-      while (!done && (inBuffer[0] = readBase64()) != END_OF_INPUT){
-          inBuffer[1] = readBase64();
-          inBuffer[2] = readBase64();
-          result += (base64Chars[ inBuffer[0] >> 2 ]);
-          if (inBuffer[1] != END_OF_INPUT){
-              result += (base64Chars [(( inBuffer[0] << 4 ) & 0x30) | (inBuffer[1] >> 4) ]);
-              if (inBuffer[2] != END_OF_INPUT){
-                  result += (base64Chars [((inBuffer[1] << 2) & 0x3c) | (inBuffer[2] >> 6) ]);
-                  result += (base64Chars [inBuffer[2] & 0x3F]);
-              } else {
-                  result += (base64Chars [((inBuffer[1] << 2) & 0x3c)]);
-                  result += ('=');
-                  done = true;
-              }
-          } else {
-              result += (base64Chars [(( inBuffer[0] << 4 ) & 0x30)]);
-              result += ('=');
-              result += ('=');
-              done = true;
-          }
-          lineCount += 4;
-          if (lineCount >= 76){
-              result += ('\n');
-              lineCount = 0;
-          }
-      }
-      return result;
-  }
-
-  base64.decode = function(str){
-      setBase64Str(str);
-      var result = "";
-      var inBuffer = new Array(4);
-      var done = false;
-      while (!done && (inBuffer[0] = readReverseBase64()) != END_OF_INPUT
-          && (inBuffer[1] = readReverseBase64()) != END_OF_INPUT){
-          inBuffer[2] = readReverseBase64();
-          inBuffer[3] = readReverseBase64();
-          result += ntos((((inBuffer[0] << 2) & 0xff)| inBuffer[1] >> 4));
-          if (inBuffer[2] != END_OF_INPUT){
-              result +=  ntos((((inBuffer[1] << 4) & 0xff)| inBuffer[2] >> 2));
-              if (inBuffer[3] != END_OF_INPUT){
-                  result +=  ntos((((inBuffer[2] << 6)  & 0xff) | inBuffer[3]));
-              } else {
-                  done = true;
-              }
-          } else {
-              done = true;
-          }
-      }
-      return result;
-  }
-})()
-
-
+  public.signIn = signIn;
+})(github)

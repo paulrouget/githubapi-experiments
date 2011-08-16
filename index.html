@@ -3,6 +3,7 @@
 <meta charset="utf8">
 <title></title>
 
+<script src="base64.js"></script>
 <script src="github.js"></script>
 <style>
   #editor {
@@ -21,9 +22,32 @@
   var editor;
   window.onload = function() {
     editor = ace.edit("editor");
-    editor.setTheme("ace/theme/monokai"); editor.setHighlightActiveLine(false);
+    editor.setTheme("ace/theme/monokai");
+    editor.setHighlightActiveLine(false);
     var HTMLMode = require("ace/mode/html").Mode;
     editor.getSession().setMode(new HTMLMode());
   };
 </script>
 
+
+<style>
+  #githubbadge > * { display: none; }
+  #githubbadge.connected > .connected { display: inline-block; }
+  #githubbadge.connecting > .connecting { display: inline-block; }
+  #githubbadge.disconnected > .disconnected { display: inline-block; }
+</style>
+<div id="githubbadge" class="disconnected">
+  <div class="disconnected">
+    <form>
+      <input id="login" required></input>
+      <input id="password" required></input>
+      <input type="submit" onclick="UI.signIn()">connect</input>
+    </form>
+  </div>
+  <div class="connecting">
+    Connecting…
+  </div>
+  <div class="connected">
+    <span id="name"></span>
+  </div>
+</div>
