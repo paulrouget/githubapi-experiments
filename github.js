@@ -6,13 +6,15 @@ function send(aTitle, aPublic, aContent, onError, onSuccess) {
   xhr.setRequestHeader("Authorization", "Basic " + base64.encode("paulrouget:zpaulz") );
 
   xhr.onerror = function () {
+    console.warn("XHR ERROR");
     if (onError)
       onError("Connection error")
   };
   xhr.onload = function(e) {
-    alert(e.responseText);
+    console.log("XHR SUCCESS");
+    console.log(JSON.parse(xhr.responseText));
     if (onSuccess)
-      onSuccess(JSON.parse(e.responseText));
+      onSuccess(JSON.parse(xhr.responseText));
   };
   var param = {};
   param.description = aTitle;
