@@ -1,4 +1,4 @@
-var UI;
+var UI = {};
 
 (function(public) {
   function signIn() {
@@ -26,9 +26,9 @@ var UI;
     badge.className = "disconnected";
   }
 
-  UI.connected = connected;
-  UI.connecting = connecting;
-  UI.disconnected = disconnected;
-  UI.signIn = signIn;
+  public.connected = connected;
+  public.connecting = connecting;
+  public.disconnected = disconnected;
+  public.signIn = signIn;
 
 })(UI)

@@ -9,7 +9,7 @@
   xhr.send(JSON.stringify(param));
 }*/
 
-var github;
+var github = {};
 
 (function(public) {
   var API_URL = "https://api.github.com";
