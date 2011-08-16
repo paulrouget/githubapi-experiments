@@ -1,14 +1,9 @@
 var UI = {};
 
 (function(public) {
-  var iframeDoc = "NULLLL";
-
-  function onload() {
-    iframeDoc = document.querySelector("iframe").contentDocument;
-    console.log(iframeDoc);
-  }
 
   function updateSource() {
+    var iframeDoc = document.querySelector("iframe").contentDocument;
     console.log(iframeDoc);
     var src = editor.getSession().getValue();
     iframeDoc.open();
@@ -49,5 +44,3 @@ var UI = {};
   public.updateSource = updateSource;
 
 })(UI)
-
-window.onload = function() {UI.onload()};
