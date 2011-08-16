@@ -38,7 +38,7 @@ var github = {};
     req("gists", "GET", login, password, aId,
         function onSuccess(aResponse) {
           console.log("SUCCESS" + aResponse);
-          var src = JSON.parse(aResponse).files[0].content; // FIXME, fragile:
+          var src = JSON.parse(aResponse).files["slides.html"].content; // FIXME, fragile:
           UI.updateSource(src);
         },
         function onError(aMsg) {
