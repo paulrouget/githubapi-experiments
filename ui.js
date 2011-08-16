@@ -8,7 +8,7 @@ var UI = {};
     //iframeDoc.open("text/html", "replace");
     //iframeDoc.write(src);
     //iframeDoc.close();
-    iframeDoc.innerHTML = src;
+    iframeDoc.documentElement.innerHTML = src;
   }
 
   function signIn() {
