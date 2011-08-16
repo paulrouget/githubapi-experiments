@@ -6,29 +6,35 @@
 <script src="ui.js"></script>
 <script src="github.js"></script>
 
-<!--style>
-  #editor {
-    position: absolute;
-    width: 600px;
-    height: 400px;
-  }
-</style>
-<div id="editor">some text</div>
-<script src="ace/src/ace.js"></script>
-<script src="ace/src/theme-monokai.js"></script>
-<script src="ace/src/mode-javascript.js"></script>
-<script src="ace/src/mode-html.js"></script>
-<script>
-  var editor;
-  window.onload = function() {
-    editor = ace.edit("editor");
-    editor.setTheme("ace/theme/monokai");
-    editor.setHighlightActiveLine(false);
-    var HTMLMode = require("ace/mode/html").Mode;
-    editor.getSession().setMode(new HTMLMode());
-  };
-</script-->
+<div id="codepanel">
+  <style>
+    #editor {
+      position: absolute;
+      width: 600px;
+      height: 400px;
+      top: 0; left: 0;
+    }
 
+    #codepanel {
+      position: relative;
+    }
+  </style>
+  <div id="editor">some text</div>
+  <script src="ace/src/ace.js"></script>
+  <script src="ace/src/theme-monokai.js"></script>
+  <script src="ace/src/mode-javascript.js"></script>
+  <script src="ace/src/mode-html.js"></script>
+  <script>
+    var editor;
+    window.onload = function() {
+      editor = ace.edit("editor");
+      editor.setTheme("ace/theme/monokai");
+      editor.setHighlightActiveLine(false);
+      var HTMLMode = require("ace/mode/html").Mode;
+      editor.getSession().setMode(new HTMLMode());
+    };
+  </script>
+</div>
 
 <style>
   #githubbadge > * { display: none; }
