@@ -40,7 +40,6 @@ var UI = {};
   public.connecting = connecting;
   public.disconnected = disconnected;
   public.signIn = signIn;
-  public.onload = onload;
   public.updateSource = updateSource;
 
 })(UI)
