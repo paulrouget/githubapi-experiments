@@ -4,11 +4,14 @@ var UI = {};
   var iframeDoc;
 
   function onload() {
-    var iframeDoc = document.querySelector("iframe").contentDocument;
+    iframeDoc = document.querySelector("iframe").contentDocument;
   }
 
-  function updateSource(src) {
-    iframeDoc.innerHTML = src;
+  function updateSource() {
+    var src = editor.getSession().getValue();
+    iframeDoc.open();
+    iframeDoc.write(src);
+    iframeDoc.close();
   }
 
   function signIn() {
