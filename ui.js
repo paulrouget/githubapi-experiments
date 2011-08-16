@@ -5,9 +5,11 @@ var UI = {};
 
   function onload() {
     iframeDoc = document.querySelector("iframe").contentDocument;
+    console.log(iframeDoc);
   }
 
   function updateSource() {
+    console.log(iframeDoc);
     var src = editor.getSession().getValue();
     iframeDoc.open();
     iframeDoc.write(src);
