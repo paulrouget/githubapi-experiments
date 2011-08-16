@@ -1,4 +1,5 @@
 // adapted from here: http://ostermiller.org/calc/encode.html
+
 var base64 = {};
 
 (function () {
