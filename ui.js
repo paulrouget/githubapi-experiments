@@ -1,6 +1,16 @@
 var UI = {};
 
 (function(public) {
+  var iframeDoc;
+
+  function onload() {
+    var iframeDoc = document.querySelector("iframe").contentDocument;
+  }
+
+  function updateSource(src) {
+    iframeDoc.innerHTML = src;
+  }
+
   function signIn() {
     var login = document.getElementById("login").value;
     var pwd = document.getElementById("password").value;
@@ -30,5 +40,9 @@ var UI = {};
   public.connecting = connecting;
   public.disconnected = disconnected;
   public.signIn = signIn;
+  public.onload = onload;
+  public.updateSource = updateSource;
 
 })(UI)
+
+window.onload = function() {UI.onload()};
