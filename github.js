@@ -37,11 +37,12 @@ var github = {};
   function getGist(aId) {
     req("gists", "GET", login, password, aId,
         function onSuccess(aResponse) {
+          console.log("SUCCESS" + aResponse);
           var src = JSON.parse(aResponse).files[0].content; // FIXME, fragile:
           UI.updateSource(src);
         },
         function onError(aMsg) {
-          alert("ERROR");
+          console.warn("ERROR");
         });
   }
 
