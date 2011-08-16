@@ -21,7 +21,7 @@ var github = {};
 
   function signIn(aLogin, aPassword) {
     UI.connecting();
-    req("user", aLogin, aPassword, null,
+    req("user", "GET", aLogin, aPassword, null,
       function onSuccess(aResponce) {
         this.user = JSON.parse(aResponce);
         UI.connected(this.user);
@@ -35,9 +35,9 @@ var github = {};
       });
   }
 
-  function req(aZone, aLogin, aPassword, aParam, onSuccess, onError) {
+  function req(aZone, aHow, aLogin, aPassword, aParam, onSuccess, onError) {
     var xhr = new XMLHttpRequest();
-    xhr.open("POST", API_URL + "/" + aZone);
+    xhr.open(aHow, API_URL + "/" + aZone);
 
     var hash = base64.encode(aLogin + ":" + aPassword);
     xhr.setRequestHeader("Authorization", "Basic " + hash);
