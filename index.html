@@ -6,6 +6,29 @@
 <script src="ui.js"></script>
 <script src="github.js"></script>
 
+<div id="githubbadge" class="disconnected">
+  <style>
+    #githubbadge > * { display: none; }
+    #githubbadge.connected > .connected { display: inline-block; }
+    #githubbadge.connecting > .connecting { display: inline-block; }
+    #githubbadge.disconnected > .disconnected { display: inline-block; }
+  </style>
+  <div class="disconnected">
+    <form>
+      <input id="login" required></input>
+      <input id="password" type="password" required></input>
+      <input type="submit" onclick="UI.signIn(); return false;" value="connect"></input>
+    </form>
+  </div>
+  <div class="connecting">
+    Connecting…
+  </div>
+  <div class="connected">
+    <img id="avatar">
+    <span id="name"></span>
+  </div>
+</div>
+
 <div id="codepanel">
   <style>
     #editor {
@@ -36,25 +59,4 @@
   </script>
 </div>
 
-<style>
-  #githubbadge > * { display: none; }
-  #githubbadge.connected > .connected { display: inline-block; }
-  #githubbadge.connecting > .connecting { display: inline-block; }
-  #githubbadge.disconnected > .disconnected { display: inline-block; }
-</style>
-<div id="githubbadge" class="disconnected">
-  <div class="disconnected">
-    <form>
-      <input id="login" required></input>
-      <input id="password" type="password" required></input>
-      <input type="submit" onclick="UI.signIn(); return false;" value="connect"></input>
-    </form>
-  </div>
-  <div class="connecting">
-    Connecting…
-  </div>
-  <div class="connected">
-    <img id="avatar">
-    <span id="name"></span>
-  </div>
-</div>
+
