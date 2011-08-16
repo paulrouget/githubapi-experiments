@@ -35,9 +35,9 @@ var github = {};
       });
   }
 
-  function req(aZone, aHow, aLogin, aPassword, aParam, onSuccess, onError) {
+  function req(aZone, aMethod, aLogin, aPassword, aParam, onSuccess, onError) {
     var xhr = new XMLHttpRequest();
-    xhr.open(aHow, API_URL + "/" + aZone);
+    xhr.open(aMethod, API_URL + "/" + aZone);
 
     var hash = base64.encode(aLogin + ":" + aPassword);
     xhr.setRequestHeader("Authorization", "Basic " + hash);
