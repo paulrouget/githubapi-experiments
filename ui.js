@@ -1,7 +1,7 @@
 var UI = {};
 
 (function(public) {
-  var iframeDoc;
+  var iframeDoc = "NULLLL";
 
   function onload() {
     iframeDoc = document.querySelector("iframe").contentDocument;
