@@ -47,7 +47,7 @@ var github = {};
 
   function req(aZone, aMethod, aLogin, aPassword, aParam, onSuccess, onError) {
     var xhr = new XMLHttpRequest();
-    xhr.open(aMethod, API_URL + "/" + aZone);
+    xhr.open(aMethod, API_URL + "/" + aZone + (aMethod == "GET" ? "/" + aParam : ""));
 
     if (this.user) {
       var hash = base64.encode(aLogin + ":" + aPassword);
@@ -68,7 +68,7 @@ var github = {};
           onSuccess(xhr.responseText);
       }
     };
-    xhr.send(aParam);
+    xhr.send(aMethod == "GET" ? null : aParam);
   }
 
   public.signIn = signIn;
