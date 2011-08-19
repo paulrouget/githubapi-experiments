@@ -1,14 +1,3 @@
-/*function sendToGithub(aTitle, aPublic, aContent, onSuccess, onError) {
-
-  var param = {};
-  param.description = aTitle;
-  param.public = aPublic;
-  param.files = {}
-  param.files["slides.html"] = {content: aContent};
-
-  xhr.send(JSON.stringify(param));
-}*/
-
 var github = {};
 
 (function(public) {
@@ -17,6 +6,7 @@ var github = {};
   var user = null;
   var login = null;
   var password = null;
+  var gist = null;
 
   function signIn(aLogin, aPassword) {
     UI.connecting();
@@ -35,22 +25,44 @@ var github = {};
   }
 
   function getGist(aId) {
-    req("gists", "GET", login, password, aId,
+    req("gists/" + aId, "GET", login, password, null,
         function onSuccess(aResponse) {
-          console.log("SUCCESS" + aResponse);
-          var src = JSON.parse(aResponse).files["slides.html"].content; // FIXME, fragile:
-          UI.updateSource(src);
+          gist = JSON.parse(aResponse);
+          UI.setGist(gist, true);
         },
         function onError(aMsg) {
           console.warn("ERROR");
         });
   }
 
+  function saveGist() {
+    if (gist) {
+      var param = {};
+      param.description = gist.description;
+      param.public = gist.public;
+      param.files = {}
+      param.files["slides.html"] = {content: editor.session.getValue()};
+      param = JSON.stringify(param);
+
+      req("gists/" + gist.id, "PATCH", login, password, param,
+          function onSuccess(aResponse) {
+            gist = JSON.parse(aResponse);
+            UI.setGist(gist, false);
+            UI.notify("saved");
+          },
+          function onError(aMsg) {
+            console.warn("ERROR");
+          });
+    } else {
+      console.warn("NO GIST TO SAVE");
+    }
+  }
+
   function req(aZone, aMethod, aLogin, aPassword, aParam, onSuccess, onError) {
     var xhr = new XMLHttpRequest();
-    xhr.open(aMethod, API_URL + "/" + aZone + (aMethod == "GET" ? "/" + aParam : ""));
+    xhr.open(aMethod, API_URL + "/" + aZone);
 
-    if (this.user) {
+    if (aLogin && aPassword) {
       var hash = base64.encode(aLogin + ":" + aPassword);
       xhr.setRequestHeader("Authorization", "Basic " + hash);
     }
@@ -69,9 +81,11 @@ var github = {};
           onSuccess(xhr.responseText);
       }
     };
-    xhr.send(aMethod == "GET" ? null : aParam);
+
+    xhr.send(aParam);
   }
 
   public.signIn = signIn;
   public.getGist = getGist;
+  public.saveGist = saveGist;
 })(github)

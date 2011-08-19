@@ -1,66 +1,61 @@
 <!DOCTYPE html>
 <meta charset="utf8">
-<title></title>
+<title>DZSlides builder</title>
 
+<link rel="stylesheet" href="style.css">
+<link href='http://fonts.googleapis.com/css?family=Cabin' rel='stylesheet' type='text/css'>
+
+<script src="utils.js"></script>
 <script src="base64.js"></script>
 <script src="ui.js"></script>
 <script src="github.js"></script>
+<script src="slides.js"></script>
 <script src="editor.js"></script>
-
-<div id="githubbadge" class="disconnected">
-  <style>
-    #githubbadge > * { display: none; }
-    #githubbadge.connected > .connected { display: inline-block; }
-    #githubbadge.connecting > .connecting { display: inline-block; }
-    #githubbadge.disconnected > .disconnected { display: inline-block; }
-  </style>
-  <div class="disconnected">
-    <form>
-      <input id="login" required></input>
-      <input id="password" type="password" required></input>
-      <input type="submit" onclick="UI.signIn(); return false;" value="connect"></input>
-    </form>
-  </div>
-  <div class="connecting">
-    Connecting…
-  </div>
-  <div class="connected">
-    <img id="avatar">
-    <span id="name"></span>
-  </div>
-</div>
-
-  <button onclick="UI.updateView()">update</button>
-  <button onclick="UI.save()">update</button>
-  <button onclick="UI.getGist()">get gist</button>
+<script src="keys.js"></script>
 
 <div id="codepanel">
-  <style>
-    #editor {
-      position: absolute;
-      width: 600px;
-      height: 400px;
-      top: 0; left: 0;
-    }
-    #codepanel {
-      position: relative;
-    }
-  </style>
-  <div id="editor">some text</div>
+  <div id="editor">&lt;!DOCTYPE html&gt;</div>
   <script src="ace/src/ace.js"></script>
-  <script src="ace/src/theme-monokai.js"></script>
+  <script src="ace/src/theme-monokai-paul.js"></script>
   <script src="ace/src/mode-javascript.js"></script>
   <script src="ace/src/mode-html.js"></script>
 </div>
 
+<div id="controls">
+  <h1>DZSlides builder</h1>
+  <div id="githubbadge" class="disconnected">
+    <div class="disconnected">
+      <form>
+        <input id="login" required></input>
+        <input id="password" type="password" required></input>
+        <input type="submit" onclick="UI.signIn(); return false;" value="connect"></input>
+      </form>
+    </div>
+    <div class="connecting">
+      Connecting…
+    </div>
+    <div class="connected">
+      <img id="avatar">
+      <span id="name"></span>
+    </div>
+  </div>
+
+  <button onclick="UI.updateView()">Sync</button>
+  <button onclick="UI.getGist()">Import</button>
+  <button onclick="UI.save()">Save</button>
+  <button onclick="">Publish</button>
+  <button onclick="">Embed</button>
+
+  <a id="gist">gist</a>
+
+  <div id="credits">
+    <img src="github.com.png">
+    <img src="imgur.com.png">
+    <img src="ace.ajax.org.png">
+  </div>
+
+</div>
+
 <div id="viewpanel">
-  <style>
-    iframe {
-      border: 3px solid red;
-    }
-    #viewpanel {
-      margin-left: 600px;
-    }
-  </style>
   <iframe width="400" height="300" name="slidesview"></iframe>
 </div>
