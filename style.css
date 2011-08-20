@@ -30,8 +30,8 @@ body {
 #codepanel {
   position: absolute;
   width: 100%;
-  height: -moz-calc(100% - 50px);
   top: 50px; left: 0;
+  bottom: 0px;
 }
 
 #viewpanel {

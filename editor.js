@@ -19,6 +19,6 @@ window.addEventListener("load", function() {
     slides.setSlide(idx);
   }
 
-  //editor.selection.on("changeCursor", getCurrentSection);
+  editor.selection.on("changeCursor", getCurrentSection);
   keys.setupEditor();
 }, true);
